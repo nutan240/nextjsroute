@@ -1,55 +1,56 @@
-import { Button, IconButton, Stack, TextField } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import React, { useState } from 'react'; 
+import "./add.css";
 
-interface AddProps {
+type AddProps = {
   onClose: () => void;
-  onSubmit: (todo: string) => void; 
-}
+  onSubmit: (todo: string) => void;
+  text: string;
+  editMode: boolean;
+};
 
-const Add: React.FC<AddProps> = ({ onClose, onSubmit }) => {
-  const [text, setText] = useState<string>("");
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onSubmit(text);
-    setText("");
-    onClose(); 
-  };
+const Add: React.FC<AddProps> = ({ onClose, onSubmit, text, editMode }) => {
+  const [todo, setTodo] = useState<string>(text);
+
+  useEffect(() => {
+    setTodo(text);
+  }, [text, editMode]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setText(event.target.value);
+    setTodo(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    onSubmit(todo);
   };
 
   return (
-    <>
-      <div>
-        <IconButton
-          sx={{ position: "absolute", top: 0, right: "0" }}
-          onClick={onClose} 
-        >
-          <CloseIcon />
-        </IconButton>
-        <Stack sx={{width:'100%'}} direction={'row'}>
-          <form onSubmit={handleSubmit}>
-            <Stack sx={{
+    <Box>
+      <IconButton
+        sx={{ position: "absolute", top: 0, right: "0" }}
+        onClick={onClose}
+      >
+        <CloseIcon />
+      </IconButton>
 
-            }}>
-            <TextField
-              id="filled-basic"
-              label="Enter your todos"
-              variant="filled"
-              type="text"
-              value={text} // Bind the value of the input field to the state
-              onChange={handleChange} // Call handleChange when input changes
-            />
-            <Button sx={{background:'pink' , 
-        width:'340px', marginTop:'17px'
-        }} type="submit">Add</Button>
-            </Stack>
-          </form>
-        </Stack>
-      </div>
-    </>
+      <TextField
+      sx={{width:'350px'}}
+        id="filled-basic"
+        label={editMode ? "" : "Enter your todos"}
+        variant="filled"
+        type="text"
+        value={todo}
+        onChange={handleChange}
+      />
+      <Button
+        classes={{ root: "custom-button" }}
+        variant="contained"
+        onClick={handleSubmit}
+      >
+        {editMode ? "Update" : "Submit"}
+      </Button>
+    </Box>
   );
 };
 

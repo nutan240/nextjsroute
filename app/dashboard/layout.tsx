@@ -2,7 +2,7 @@
 import { Box } from "@mui/material";
 import { useRouter } from "next/navigation";
 import React from "react";
-import Image1 from "../img/image.png";
+
 
 
 interface DashboardLayoutProps {
@@ -12,12 +12,13 @@ interface DashboardLayoutProps {
 const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
   const router = useRouter();
   return (
-    <div className="w-[100%]">
+    <div className="w-[100%] min-w-[700px] h-screen ">
       <nav
         style={{
           background:
             "linear-gradient(to left, #ee7724, #d8363a, #dd3675, #b44593)", 
-          
+          width:'100%',
+          minWidth:'700px'
         }}
         className=" text-white py-4 px-5 flex justify-between items-center"
       >
@@ -47,7 +48,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
       <div className="flex">
         <div
          
-          className="h-screen w-[170px] text-blue-900 text-2xl bg-blue-200 font-semibold "
+          className="h-screen min-h-[700px] w-[170px] text-blue-900 text-2xl bg-blue-200 font-semibold "
         >
           <ul className="pt-4 flex flex-col gap-4 px-5  w-auto ">
             <li
@@ -65,7 +66,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
             </li>
           </ul>
         </div>
-        <Box sx={{backgroundImage:` url( ${Image1} )` , height:'600px' , width:'900px' , margin:'auto'}}>{props.children}</Box>
+        <Box sx={{ marginX:'auto', width:'65%' }}>{props.children}</Box>
       </div>
     </div>
   );
